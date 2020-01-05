@@ -1,0 +1,45 @@
+<?xml version="1.0" ?>
+<openerp>
+  <data>
+    <record id="email_template_invoice" model="mail.template">
+      <field name="name">Envio Comprobante Electronico</field>
+      <field name="email_from">${object.company_id.email}</field>
+      <field name="subject">${object.company_id.name}: ${object.doc_electronico_tipo} ${object.doc_electronico_no}</field>
+      <field name="email_to">${object.partner_id.email}</field>
+      <!--<field name="email_cc">${(object.user_id.email or object.company_id.email or 'noreply@finamsys.com')|safe}</field>-->
+      <field name="model_id" ref="l10n_ec_invoice.model_account_invoice"/>
+      <field name="auto_delete" eval="True"/>
+      <field name="body_html"><![CDATA[
+
+        <div class="row">
+          <center>
+              <br><table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer"></table><table border="0" cellpadding="0" cellspacing="0" width="600" id="templateContainer"><tbody><tr><td align="center" valign="top"><table border="0" cellpadding="0" cellspacing="0" width="600" id="templateHeader"><tbody><tr><td align="center" valign="top"><table border="0" cellpadding="0" cellspacing="0" width="600" id="templateBody"><tbody><tr><td valign="top" class="bodyContainer"><table border="0" cellpadding="0" cellspacing="0" width="100%" class="TextBlock"><tbody class="TextBlockOuter"><tr><td valign="top" class="TextBlockInner"><table border="0" cellpadding="0" cellspacing="0" width="600" class="TextContentContainer" style="text-align: left;"><tbody><tr><td valign="top" class="TextContent" style="padding-top:30px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;"><table class="table table-bordered"><tbody><tr><td style="text-align: center; background-color: rgb(132, 99, 0);" class=""><font style="color: rgb(255, 255, 255); font-size: 24px;"><b>COMPROBANTE ELECTRONICO</b></font><font style="color: rgb(255, 255, 255); font-size: 24px;"><b><br></b></font></td></tr><tr><td><p><font style="font-size: 14px;"><br></font></p><p><font style="color: rgb(0, 0, 0); font-size: 14px;">Estimado(a)</font><font style="font-size: 14px;">&nbsp;</font><font style="color: rgb(132, 99, 0); font-size: 14px;">${object.partner_id.name}</font><font style="font-size: 14px;">,</font></p><p style="text-align: justify;"><span style="color: rgb(132, 99, 0); font-size: 14px; text-align: center;">${object.company_id.name}</span><font style="color: rgb(0, 0, 0); font-size: 14px;">&nbsp;</font><font style="color: rgb(0, 0, 0); font-size: 14px;">ha emitido a su nombre y ante el SERVICIO DE RENTAS INTERNAS el siguiente documento electrónico:</font></p><p style="text-align: justify;"><br></p><p style="text-align: justify;"></p></td></tr><tr><td class="" style="background-color: rgb(239, 239, 239);"><pre><span style="color: rgb(0, 0, 0);">Tipo de Comprobante:&nbsp;</span><font style="color: rgb(132, 99, 0);">${object.doc_electronico_tipo}</font></pre></td></tr><tr><td><pre><span style="color: rgb(0, 0, 0);">Nº de Comprobante:</span>&nbsp; &nbsp;<font style="color: rgb(132, 99, 0);">${object.doc_electronico_no}</font></pre></td></tr><tr><td class="" style="background-color: rgb(239, 239, 239);"><pre><span style="color: rgb(0, 0, 0);">Clave de Acceso:</span>&nbsp; &nbsp; &nbsp;<font style="color: rgb(132, 99, 0);">${object.doc_electronico_no_autorizacion}</font></pre></td></tr><tr><td><pre><span style="color: rgb(0, 0, 0);">Fecha de Emisión:</span>&nbsp; &nbsp; <font style="color: rgb(132, 99, 0);">${object.date_invoice}</font></pre></td></tr><tr><td><p><span style="font-style: initial; font-variant-caps: initial; font-variant-ligatures: initial; font-weight: initial;"><font style="font-size: 10px;"><br></font></span></p><div style="text-align: justify;"><font style="font-size: 10px;"><span style="background-color: transparent; color: rgb(0, 0, 0); font-size: 14px; font-style: initial; font-variant-caps: initial; font-variant-ligatures: initial; font-weight: initial;">En este correo encontrará los archivos adjuntos pdf y xml para su descarga y referencia inmediata.</span></font></div><p></p><p style="text-align: justify;"><u><font style="color: rgb(0, 0, 0); font-size: 14px;"><span style="font-weight: bolder;">Importante</span>:</font></u><font style="color: rgb(0, 0, 0); font-size: 14px;">&nbsp;Para verificar el estado de autorización de este comprobante electrónico, copie la clave de acceso y</font><span style="font-variant-caps: initial; font-variant-ligatures: initial; font-weight: initial;"><font style="color: rgb(0, 0, 0); font-size: 14px;"><span style="font-style: initial;">&nbsp;acceda&nbsp;al portal de consultas del&nbsp;</span>SRI<span style="font-style: initial;">&nbsp;haciendo click en el siguiente enlace:&nbsp;</span></font></span><br><br></p></td></tr><tr><td style="text-align: center;"><p><a href="https://srienlinea.sri.gob.ec/comprobantes-electronicos-internet/publico/validezComprobantes.jsf?redireccion=225&amp;idGrupo=622&amp;contextoMPT=https://declaraciones.sri.gob.ec/tuportal-internet&amp;pathMPT=COMPROBANTES%20ELECTRONICOS%20%2F%20Consultas&amp;actualMPT=Validez%20de%20comprobantes%20electr%F3nicos%20&amp;linkMPT=%2Fcomprobantes-electronicos-internet%2Fpublico%2FvalidezComprobantes.jsf%3Fredireccion%3D225%26idGrupo%3D622&amp;esFavorito=N" class="btn btn-delta" target="_blank">Consulta SRI</a><br></p></td></tr><tr><td><p><font style="color: rgb(0, 0, 0); font-size: 14px;">Atentamente,</font></p><p><span style="color: rgb(132, 99, 0); font-size: 14px; text-align: center;">${object.company_id.name}</span><br><br></p></td></tr><tr><td class="" style="background-color: rgb(239, 239, 239); padding-left: 1.5em;"><span style="color: rgb(132, 99, 0); font-family: Helvetica; font-size: 10px; text-align: justify; caret-color: rgb(0, 0, 0); background-color: rgb(239, 239, 239);"><br></span><span style="color: rgb(132, 99, 0); font-family: Helvetica; font-size: 10px; text-align: justify; caret-color: rgb(0, 0, 0); background-color: rgb(239, 239, 239);">Este mensaje contiene información confidencial y útil únicamente para su destinatario, si usted no lo fuere por favor proceda a su destrucción. El mal uso de información privada es regulado por la legislación ecuatoriana.</span><br><span style="color: rgb(132, 99, 0); font-family: Helvetica; font-size: 10px; text-align: justify; caret-color: rgb(0, 0, 0); background-color: rgb(239, 239, 239);"><br></span></td></tr><tr><td style="text-align: center;"><font style="color: rgb(132, 99, 0);"><br></font><font style="color: rgb(132, 99, 0);">Cuidemos nuestro ambiente. Es único.</font><font style="color: rgb(132, 99, 0);"><br></font><font style="color: rgb(132, 99, 0);"><br></font></td></tr><tr><td style="text-align: center; background-color: rgb(132, 99, 0);" class=""><font style="color: rgb(255, 255, 255); font-size: 18px;"><b>Menos impresiones, más árboles.</b></font><font style="color: rgb(255, 255, 255); font-size: 18px;"><b><br></b></font></td></tr><tr><td><br></td></tr></tbody></table><p></p></td>
+                                                                  </tr><tr>
+
+                                                                      <td valign="top" class="TextContent" style="padding-top:30px; padding-right: 18px; padding-bottom: 9px; padding-left: 18px;"><br></td>
+                                                                  </tr>
+                                                                  </tbody>
+                                                              </table>
+
+                                                          </td>
+                                                      </tr>
+                                                      </tbody>
+                                                  </table>
+
+                                              </td>
+                                          </tr>
+                                      </tbody></table>
+                                  </td>
+                              </tr>
+                          </tbody></table>
+                      </td>
+                  </tr>
+              </tbody></table>
+          </center>
+        </div>
+
+        ]]>
+      </field>
+    </record>
+  </data>
+</openerp>

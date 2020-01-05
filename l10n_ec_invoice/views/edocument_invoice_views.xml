@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- DEFINICION EXPLICITA DE LA VISTA DEL LISTADO OUT_INVOICE -->
+        <record id="account_invoice_tree_edocument_out" model="ir.ui.view">
+            <field name="name">account.invoice.tree.edocument.out</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='state']" position="after">
+                    <field name="estado" invisible="1"/>
+                    <!-- BOTTON procesar_individual -->
+                    <button name="procesar_individual"
+                            type="object"
+                            icon="fa-paper-plane text-success"
+                            string="Generar XML y PDF"
+                            attrs="{'invisible': [
+                            '|',
+                            '|',
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('estado', '=', '00'),
+                            ('estado', '=', '03'),
+                            ('tipo_documento_tributario', '=', 'COMPROBANTE DE RETENCION DE VENTA'),
+                            ]}"
+                    />
+                    <!-- BOTTON PRESENTAR ERROR -->
+                    <button name="procesar_individual"
+                            type="object"
+                            icon="fa-times text-danger"
+                            string="Error XML y PDF"
+                            attrs="{'invisible': [
+                            '|',
+                            ('estado', '!=', '00'),
+                            ('tipo_documento_tributario', '=', 'COMPROBANTE DE RETENCION DE VENTA'),
+                            ]}"
+                    />
+                </xpath>
+            </field>
+        </record>
+
+        <!-- DEFINICION EXPLICITA DE LA VISTA DEL LISTADO IN_INVOICE -->
+        <record id="account_invoice_tree_edocument_in" model="ir.ui.view">
+            <field name="name">account.invoice.tree.edocument.in</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='bool_validar']" position="after">
+                    <field name="estado" invisible="1"/>
+                    <field name="bool_doc_enviado" invisible="1"/>
+                    <!-- BOTTON procesar_individual -->
+                    <button name="procesar_individual"
+                            type="object"
+                            icon="fa-paper-plane text-success"
+                            string="Generar XML y PDF"
+                            attrs="{'invisible': [
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('estado', '=', '00'),
+                            ('estado', '=', '03'),
+                            ('tipo_documento_tributario', '=', 'NOTA DE CREDITO DE COMPRA'),
+                            ('tipo_documento_tributario', '=', 'REVERSION DE DOCUMENTO DE COMPRA'),
+                            ('bool_doc_enviado', '=', False)
+                            ]}"
+                    />
+                    <!-- BOTTON PRESENTAR ERROR -->
+                    <button name="procesar_individual"
+                            type="object"
+                            icon="fa-times text-danger"
+                            string="Error XML y PDF"
+                            attrs="{'invisible': [
+                            ('estado', '!=', '00')
+                            ]}"
+                    />
+                </xpath>
+            </field>
+        </record>
+
+        <!-- DEFINICION EXPLICITA DE LA VISTA DE LA FORMA OUT_INVOICE OR OUT_REFUND -->
+        <record id="account_invoice_form_edocument_out" model="ir.ui.view">
+            <field name="name">account.invoice.form.edocument.out</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <!-- BOTTON DE PROCESAMIENTO COMPROBANTE ELECTRONICO -->
+                <xpath expr="//header" position="inside">
+                    <!-- BOTTON procesar_individual -->
+                    <button name="procesar_individual"
+                            type="object"
+                            icon="fa-paper-plane"
+                            string=" GENERAR XML &amp; PDF"
+                            groups="base.group_user"
+                            attrs="{'invisible': [
+                            '|',
+                            '|',
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('estado', '=', '00'),
+                            ('estado', '=', '03'),
+                            ('tipo_documento_tributario', '=', 'COMPROBANTE DE RETENCION DE VENTA'),
+                            ]}"
+                    />
+                    <!-- BOTTON re-enviar_correo -->
+                    <button name="re_enviar_correo"
+                            type="object"
+                            string=" RE-ENVIAR CORREO"
+                            icon="fa-envelope-o"
+                            groups="base.group_user"
+                            attrs="{'invisible': [
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('estado', '=', '00'),
+                            ('estado', '=', '01'),
+                            ('estado', '=', '02'),
+                            ('tipo_documento_tributario', '=', 'COMPROBANTE DE RETENCION DE VENTA'),
+                            ]}"
+                    />
+                    <!-- BOTTON impresión de comprobante -->
+                    <button name="imprimir_comprobante"
+                            type="object"
+                            string=" RIDE"
+                            icon="fa-print"
+                            groups="base.group_user"
+                            attrs="{
+                            'invisible': [
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('tipo_documento_tributario', '=', 'COMPROBANTE DE RETENCION DE VENTA'),
+                            ]}"
+                    />
+                </xpath>
+                <!-- ESTADO DE ENVIO DEL COMPROBANTE ELECTRONICO:  -->
+                <xpath expr="//field[@name='doc_electronico_no_autorizacion']" position="after">
+                    <field name="estado"
+                           force_save="1"
+                           decoration-danger="estado=='00'"
+                           decoration-info="estado=='01'"
+                           decoration-primary="estado=='02'"
+                           readonly="0"
+                           attrs="{
+                           'readonly':[
+                            ('bool_on_off_estado', '=', False)],
+                            'invisible': [
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('tipo_documento_tributario', '=', 'COMPROBANTE DE RETENCION DE VENTA'),
+                            ]}"
+                    />
+                    <field name="estado_lc" force_save="1" invisible="1"/>
+                </xpath>
+                <!-- PESTAÑA HISTORIAL DE CONEXIONES AL SRI -->
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string="Historial"
+                          attrs="{'invisible': [
+                            '|',
+                            ('state', '=', 'draft')]
+                            }"
+                    >
+                        <group>
+                            <field name="historial"
+                                   readonly="1"
+                                   decoration-danger="estado=='00'"
+                                   decoration-info="estado=='01'"
+                                   decoration-primary="estado=='02'"
+                            />
+                            <field name="bool_on_off_estado"/>
+                            <field name="bool_on_off_estado_lc" invisible="1"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- DEFINICION EXPLICITA DE LA VISTA DE LA FORMA IN_INVOICE OR IN_REFUND -->
+        <record id="account_invoice_form_edocument_in" model="ir.ui.view">
+            <field name="name">account.invoice.form.edocument.in</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <!-- BOTTON DE PROCESAMIENTO COMPROBANTE ELECTRONICO -->
+                <xpath expr="//header" position="inside">
+                    <!-- BOTTON procesar_individual -CR -->
+                    <button name="procesar_individual"
+                            type="object"
+                            icon="fa-paper-plane"
+                            string=" GENERAL PDF &amp; XML"
+                            groups="base.group_user"
+                            attrs="{'invisible': [
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('estado', '=', '00'),
+                            ('estado', '=', '03'),
+                            ('estado', '=', False),
+                            ('tipo_documento_tributario', '=', 'NOTA DE CREDITO DE COMPRA'),
+                            ('tipo_documento_tributario', '=', 'REVERSION DE DOCUMENTO DE COMPRA'),
+                            ('bool_doc_enviado', '=', False)
+                            ]}"
+                    />
+                    <!-- BOTTON re-enviar_correo -->
+                    <button name="re_enviar_correo"
+                            type="object"
+                            string=" RE-ENVIAR CORREO"
+                            icon="fa-envelope-o"
+                            groups="base.group_user"
+                            attrs="{'invisible': [
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('estado', '=', '00'),
+                            ('estado', '=', '01'),
+                            ('estado', '=', '02'),
+                            ('estado', '=', False),
+                            ('tipo_documento_tributario', '=', 'NOTA DE CREDITO DE COMPRA'),
+                            ('tipo_documento_tributario', '=', 'REVERSION DE DOCUMENTO DE COMPRA'),
+                            ]}"
+                    />
+                    <!-- BOTTON impresión de liquidacion de compra -->
+                    <button name="imprimir_liquidacion"
+                            type="object"
+                            string=" RIDE LC"
+                            icon="fa-print"
+                            groups="base.group_user"
+                            attrs="{'invisible': [
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('tipo_comprobante', '!=', '03'),
+                            ]}"
+                    />
+                    <!-- BOTTON impresión de comprobante -->
+                    <button name="imprimir_comprobante"
+                            type="object"
+                            string=" RIDE CR"
+                            icon="fa-print"
+                            groups="base.group_user"
+                            attrs="{'invisible': [
+                            '|',
+                            ('state', '=', 'draft'),
+                            ('bool_doc_enviado', '=', False),
+                            ]}"
+                    />
+                </xpath>
+                <!-- ESTADO DE ENVIO DEL COMPROBANTE ELECTRONICO:  -->
+                <xpath expr="//field[@name='doc_electronico_no_autorizacion']" position="after">
+                    <field name="estado"
+                           string="Estado SRI"
+                           force_save="1"
+                           decoration-danger="estado=='00'"
+                           decoration-info="estado=='01'"
+                           decoration-primary="estado=='02'"
+                           readonly="0"
+                           attrs="{
+                           'readonly':[
+                            ('bool_on_off_estado', '=', False)],
+                            'invisible': [
+                            '|',
+                            ('state', '=', 'draft')]
+                            }"
+                    />
+                </xpath>
+                <xpath expr="//field[@name='doc_electronico_no_autorizacion_lc']" position="after">
+                    <field name="estado_lc"
+                           string="Estado SRI "
+                           force_save="1"
+                           decoration-danger="estado=='00'"
+                           decoration-info="estado=='01'"
+                           decoration-primary="estado=='02'"
+                           readonly="0"
+                           attrs="{
+                           'readonly':[
+                            ('bool_on_off_estado_lc', '=', False),
+                            ],
+                            'invisible': [
+                            ('state', '=', 'draft'),
+                            ('bool_on_off_estado_lc', '=', False),
+                            ]}"
+                    />
+                </xpath>
+                <!-- PESTAÑA HISTORIAL DE CONEXIONES AL SRI -->
+                <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                    <page string="Historial"
+                          attrs="{'invisible': [
+                            '|',
+                            ('state', '=', 'draft')]
+                            }"
+                    >
+                        <group>
+                            <field name="historial"
+                                   readonly="1"
+                                   decoration-danger="estado=='00'"
+                                   decoration-info="estado=='01'"
+                                   decoration-primary="estado=='02'"
+                            />
+                            <field name="bool_on_off_estado"/>
+                            <field name="bool_on_off_estado_lc"
+                                   attrs="{
+                                   'invisible': [
+                                   ('tipo_comprobante', '!=', '03'),
+                                   ]}"/>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+
+    </data>
+
+    <!-- CRON: ACTULIZACION ENVIO DE DOCUMENTOS ELECTRONICOS -->
+    <!-- <data noupdate="1"> -->
+    <!--
+    <data noupdate="1">
+        <record id="procesar_listado" model="ir.cron">
+            <field name="name">Documentos Electronicos</field>
+            <field name="model_id" ref="model_account_invoice"/>
+            <field name="state">code</field>
+            <field name="code">model.procesar_listado()</field>
+            <field name="interval_number">1</field>
+            <field name="interval_type">hours</field>
+            <field name="numbercall">-1</field>
+        </record>
+    </data>
+    -->
+
+</odoo>

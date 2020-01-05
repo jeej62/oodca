@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<odoo>
+    <data>
+
+        <report id="l10n_ec_invoice_retention"
+                model="account.invoice"
+                string="RETENCION RIDE"
+                report_type="qweb-pdf"
+                name="l10n_ec_invoice.report_retention"
+                file="l10n_ec_invoice.report_retention"
+                attachment_use="True"
+                attachment="((object.doc_electronico_no_autorizacion) +'.pdf')"
+                menu="False" />
+
+        <report id="l10n_ec_invoice_purchase_clearance"
+                model="account.invoice"
+                string="LIQUIDACION DE COMPRA RIDE"
+                report_type="qweb-pdf"
+                name="l10n_ec_invoice.report_purchase_clearance"
+                file="l10n_ec_invoice.report_purchase_clearance"
+                attachment_use="True"
+                attachment="((object.doc_electronico_no_autorizacion_lc) +'.pdf')"
+                menu="False" />
+
+        <report id="l10n_ec_invoice_out_invoice"
+                model="account.invoice"
+                string="FACTURA RIDE"
+                report_type="qweb-pdf"
+                name="l10n_ec_invoice.report_out_invoice"
+                file="l10n_ec_invoice.report_out_invoice"
+                attachment_use="True"
+                attachment="((object.doc_electronico_no_autorizacion) +'.pdf')"
+                menu="False" />
+
+        <report id="l10n_ec_invoice_out_refund"
+                model="account.invoice"
+                string="NOTA DE CREDITO RIDE"
+                report_type="qweb-pdf"
+                name="l10n_ec_invoice.report_out_refund"
+                file="l10n_ec_invoice.report_out_irefund"
+                attachment_use="True"
+                attachment="((object.doc_electronico_no_autorizacion) +'.pdf')"
+                menu="False" />
+
+    </data>
+</odoo>

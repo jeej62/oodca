@@ -1,0 +1,199 @@
+<odoo>
+  <data>
+
+    <!-- DEFINICION EXPLICITA DE LA VISTA DEL LISTADO -->
+    <record id="account_invoice_tree_new" model="ir.ui.view">
+      <field name="name">account.invoice.tree.new</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_tree"/>
+      <field name="arch" type="xml">
+        <!--
+        <xpath expr="//field[@name='amount_untaxed_invoice_signed']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='amount_tax_signed']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        -->
+        <xpath expr="//field[@name='user_id']" position="attributes">
+          <attribute name="attrs">{}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <xpath expr="//field[@name='number']" position="after">
+          <field name="tipo_formulario"/>
+          <field name="reference"/>
+          <field name="tipo_documento_tributario" invisible="1"/>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- DEFINICION EXPLICITA DE LA VISTA DEL FORMULARIO -->
+    <record id="account_invoice_form_new" model="ir.ui.view">
+      <field name="name">account.invoice.form.new</field>
+      <field name="model">account.invoice</field>
+      <field name="inherit_id" ref="account.invoice_form"/>
+      <field name="arch" type="xml">
+        <!-- INVISIBLE: BOTON action_invoice_sent DENTRO DEL ENCABEZADO DE LA FACTURA -->
+        <xpath expr="//header/button[@name='action_invoice_sent']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <!-- INVISIBLE: BOTON preview_invoice DENTRO DEL ENCABEZADO DE LA FACTURA -->
+        <xpath expr="//header/button[@name='preview_invoice']" position="attributes">
+            <attribute name="invisible">1</attribute>
+        </xpath>
+        <!-- STATUSBAR:  -->
+        <xpath expr="//header/field[@name='state']" position="after">
+          <field name="bool_validar" style="text-align: center;" invisible="1" readonly="1" force_save="1"/>
+        </xpath>
+        <!-- REUBICACION NAME (REFERENCE DESCRIPTION) LUEGO DE COMMERCIAL_PARTNER_ID -->
+        <!-- UBICACION numero_identidad A CONTINUACION -->
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <field name="partner_id" invisible="1" force_save="1"/>
+          <field name="numero_identidad" string="No Identidad" placeholder="0000000000" force_save="1"/>
+        </xpath>
+        <!-- REUBICACION origin (Source document) EN LA 2DA COLUMNA DE in_invoice -->
+        <xpath expr="//field[@name='date_invoice']" position="before">
+          <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_info']/group[1]/group[2]/field[@name='origin']" position="move"/>
+          <field name="tipo_formulario" force_save="1" invisible = "1"/>
+          <field name="establecimiento_venta" force_save="1" invisible = "1"/>
+        </xpath>
+        <!-- REUBICACION name (Reference/Description) EN LA 2DA COLUMNA DE in_invoice -->
+        <xpath expr="//field[@name='move_name']" position="after">
+          <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_info']/group[1]/group[1]/field[@name='name']" position="move"/>
+        </xpath>
+        <!-- REUBICACION reference Payment Ref.) -->
+        <xpath expr="//field[@name='numero_identidad']" position="after">
+          <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_info']/group[1]/group[1]/field[@name='reference']" position="move"/>
+        </xpath>
+
+        <!-- AÑADIR numero_autorizacion -->
+        <xpath expr="//field[@name='reference']" position="after">
+          <field name="numero_autorizacion" force_save="1" string="No Autorización" style="font-size:95%;"/>
+        </xpath>
+
+        <!-- INVISIBLE: amount_tax DENTRO DEL PIE DE FACTURA -->
+        <!-- READONLY:  amount_tax DENTRO DEL PIE DE FACTURA -->
+        <xpath expr="//field[@name='amount_tax']" position="attributes">
+          <attribute name="attrs">{"readonly": [("state","!=","draft")]}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <!-- READONLY:  reference -->
+        <xpath expr="//field[@name='reference']" position="attributes">
+          <attribute name="attrs">{"readonly": ['|',("state","!=","draft"),("type","=","out_invoice")], 'invisible': ['|','&amp;',('state','=',"draft"),("type","=","out_invoice"),'&amp;',('state','=',"draft"),('tipo_formulario','=',"NOTA CREDITO")]}</attribute>
+        </xpath>
+        <!-- READONLY:  numero_autorizacion -->
+        <xpath expr="//field[@name='numero_autorizacion']" position="attributes">
+          <attribute name="attrs">{"readonly": ['|',("state","!=","draft"),("type","=","out_invoice")], 'invisible': ['|','&amp;',('state','=',"draft"),("type","=","out_invoice"),'&amp;',('state','=',"draft"),('tipo_formulario','=',"NOTA CREDITO")]}</attribute>
+        </xpath>
+        <!-- INVISIBLE: account_id DENTRO DEL INVOICE_LINE_IDS -->
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/field[@name='invoice_line_ids']/tree[1]/field[@name='account_id']" position="attributes">
+          <attribute name="attrs">{"required": [("display_type","=",False)]}</attribute>
+          <attribute name="invisible">1</attribute>
+        </xpath>
+        <!-- INVISIBLE: account_id DENTRO DEL INVOICE_LINE_IDS -->
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_info']/field[@name='tax_line_ids']/tree[1]/field[@name='account_id']"
+            position="attributes">
+          <attribute name="attrs">{}</attribute>
+        </xpath>
+
+        <!-- UBICACION metodo_pago EN LA 1RA COLUMNA DE in_invoice -->
+        <xpath expr="//field[@name='payment_term_id']" position="before">
+          <field name="metodo_pago" string="Método Pago" attrs="{'invisible': [('type','=','out_refund')]}"/>
+        </xpath>
+        <!-- UBICACION -->
+        <!-- SUBTOTAL 0% -->
+        <!-- SUBTOTAL 12% -->
+        <!-- SUBTOTAL NO SUJETO DE IVA -->
+        <xpath expr="//field[@name='amount_untaxed']" position="before">
+          <field name="subtotal_0" string="Subtotal 0%" attrs="{'invisible': ['|',('subtotal_0','==',0)]}" readonly="1" force_save="1"/>
+          <field name="subtotal_12" string="Subtotal 12%" attrs="{'invisible': ['|',('subtotal_12','==',0)]}" readonly="1" force_save="1"/>
+          <field name="subtotal_no_sujeto_iva" string="Subtotal No Sujeto IVA" attrs="{'invisible': ['|',('subtotal_no_sujeto_iva','==',0)]}" readonly="1" force_save="1"/>
+        </xpath>
+        <!-- RENOMBRAR amount_untaxed -->
+        <xpath expr="//field[@name='amount_untaxed']" position="attributes">
+          <attribute name="string">Subtotal Sin Impuestos</attribute>
+        </xpath>
+        <!-- UBICACION -->
+        <!-- DESCUENTOS -->
+        <!-- ICE -->
+        <!-- IRBPNR -->
+        <!-- IVA 12% -->
+        <!-- PROPINA -->
+        <!-- VALOR TOTAL -->
+        <!-- TOTAL RETENCIONES -->
+        <xpath expr="//field[@name='amount_untaxed']" position="after">
+          <field name="descuento" string="DESCUENTO" attrs="{'invisible': ['|',('descuento','==',0)]}" readonly="1" force_save="1"/>
+          <field name="ice" string="ICE" attrs="{'invisible': ['|',('ice','==',0)]}" readonly="1" force_save="1"/>
+          <field name="irbpnr" string="IRBPNR" attrs="{'invisible': ['|',('irbpnr','==',0)]}" readonly="1" force_save="1"/>
+          <field name="iva_12" string="IVA 12%" attrs="{'invisible': ['|',('iva_12','==',0)]}" readonly="1" force_save="1"/>
+          <field name="propina" string="Propina" attrs="{'invisible': ['|',('propina','==',0)]}" readonly="1" force_save="1"/>
+          <field name="valor_total" string="VALOR TOTAL" attrs="{}" readonly="1" force_save="1"/>
+        </xpath>
+        <!-- UBICACION BASE IMPONIBLE DENTRO DE TAX_LINE_IDS -->
+        <!-- UBICACION PORCENTAJE_RETENCION DENTRO DE TAX_LINE_IDS -->
+        <xpath expr="//form[1]/sheet[1]/notebook[1]/page[@name='other_info']/field[@name='tax_line_ids']/tree[1]/field[@name='account_id']" position="after">
+          <field name="base_imponible" string="Base" force_save="1"/>
+          <field name="porcentaje_retencion" string="%" force_save="1"/>
+        </xpath>
+        <xpath expr="//field[@name='date_invoice']" position="before">
+          <field name="select_numDiarioModificado_ventas" force_save="1" widget="selection" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':['|',('type','=','out_invoice'),('origin','!=',False)]}"/>
+          <field name="char_numDocModificado" force_save="1" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('type','=','out_invoice')]}"/>
+          <field name="char_docModificado_fecha" force_save="1" attrs="{'readonly':[('state', '!=', 'draft')], 'invisible':[('type','=','out_invoice')]}"/>
+        </xpath>
+        <!-- UBICACION VALOR TOTAL EN LETRAS-->
+        <xpath expr="//field[@name='user_id']" position="after">
+          <field name="valor_total_letras" force_save="1" readonly="1" invisible="1"/>
+          <field name="tipo_comprobante_descripcion" force_save="1" readonly="1" invisible="1"/>
+          <field name="metodo_pago_descripcion" force_save="1" readonly="1" invisible="1"/>
+          <field name="codigo_sustento_descripcion" force_save="1" readonly="1" invisible="1"/>
+        </xpath>
+        <!-- INFORMACION TRIBUTARIA -->
+        <xpath expr="//form[1]/sheet[1]/group[1]" position="after">
+          <group name="doc_electrónicos_group">
+            <group name="doc_electronicos_group_left" force_save="1" string="Comprobante Electrónico"
+                   attrs="{'invisible': [
+                   '|',
+                   ('state', '=', 'draft'),
+                   ('tipo_documento_tributario','=','COMPROBANTE DE RETENCION DE VENTA'),
+                   ]}">
+              <field name="doc_electronico_no" force_save="1" readonly="1"/>
+              <field name="doc_electronico_fecha" force_save="1" readonly="1" invisible="1"/>
+              <field name="doc_electronico_no_autorizacion" force_save="1" readonly="1"/>
+              <field name="amount_total" invisible="1" />
+              <field name="doc_electronico_xml" force_save="1" readonly="1" invisible="1"/>
+              <field name="doc_electronico_no_anulacion" force_save="1" readonly="0"
+                     attrs="{
+                     'readonly':[
+                     ('bool_validar', '=', True)
+                     ],
+                     'invisible': [
+                     '|',
+                     ('state','!=','paid'),
+                     ('bool_onOff_no_anulacion','=',True)
+                     ]}"/>
+              <field name="doc_electronico_tipo" readonly="1" force_save="1" invisible="1"/>
+              <field name="doc_electronico_fecha_autorizacion" invisible = "0" style="font-size:100%;" force_save="1"/>
+            </group>
+          </group>
+        </xpath>
+
+        <!-- SEMAFOROS DE CONTROL -->
+        <xpath expr="//field[@name='user_id']" position="after">
+          <field name="bool_doc_enviado" string="CRF Enviado" readonly="1" invisible="1"/>
+          <field name="bool_doc_revertido" string="DOC Revertido" readonly="1" invisible="1"/>
+          <field name="bool_confirm_sri" string="SRI Confirmación" invisible="1"/>
+          <field name="bool_validar" force_save="1" string="Proceso validado" readonly="1" invisible="1"/>
+          <field name="ultimo_estado" string="Ultimo Estado" readonly="1" invisible="1"/>
+          <field name="bool_onOff_no_anulacion" force_save="1" string="On/Off No Anulación" readonly="1" invisible="1"/>
+        </xpath>
+        <!-- TIPO DE DOCUMENTO TRIBUTARIO -->
+        <xpath expr="//form[1]/sheet[1]/div[1]" position="after">
+          <field name="tipo_documento_tributario" style="font-size:200%;" force_save="1" attrs="{'readonly':[('state', '==', 'draft')]}"/><br/>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

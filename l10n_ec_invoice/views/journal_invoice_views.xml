@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- JOURNAL - Contabilidad -->
+
+    <!-- Journal DOCUMENTOS TRIBUTARIOS sequence_number_next inherte -->
+    <record model="ir.ui.view" id="view_account_journal_form_new">
+        <field name="name">account.journal.form.new</field>
+        <field name="model">account.journal</field>
+        <field name="inherit_id" ref="account.view_account_journal_form"/>
+        <field name="arch" type="xml">
+            <!-- AÑADIR: nombre_diario -->
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="nombre_diario" readonly = "1"/>
+            </xpath>
+            <!-- INVISIBLE: JOURNAL NAME name -->
+            <xpath expr="//field[@name='name']" position="attributes">
+                <attribute name="attrs">{}</attribute>
+                <attribute name="invisible">1</attribute>
+            </xpath>
+            <!-- AÑADIR establecimiento, punto_emision & nombre -->
+            <xpath expr="//field[@name='type']" position="after">
+                <field name="establecimiento"/>
+                <field name="punto_emision"/>
+                <field name="nombre"/>
+            </xpath>
+            <!-- INVISIBLE: NOMBRE nombre -->
+            <xpath expr="//field[@name='nombre']" position="attributes">
+                <!--<attribute name="attrs">{'invisible':['|',('type','=',"sale"),('type','=',"purchase")]}</attribute>-->
+                <attribute name="attrs">{'invisible':['0']}</attribute>
+            </xpath>
+            <!-- INVISIBLE: NOMBRE nombre -->
+            <xpath expr="//field[@name='refund_sequence']" position="attributes">
+                <attribute name="attrs">{'invisible': ['|',('type','!=','sale'),("type","!=","purchase")]}</attribute>
+            </xpath>
+            <xpath expr="//form[1]/sheet[1]/notebook[1]" position="inside">
+                <page name="studio_page_pUUO3" string="Información Tributaria" attrs="{'invisible': [('type', 'not in', ['sale', 'purchase'])]}">
+                    <group name="studio_group_pUUO3">
+                        <!-- INFORMACION TRIBUTARIA -->
+                        <group name="group_documentosSri_left" string="Documentos Tributarios">
+                            <!-- LIQUIDACION DE COMPRA -->
+                            <field name="liquidacionCompra_electronica" attrs="{'invisible': ['|',('type', 'not in', ['purchase']), ('liquidacionCompra_sequence_id', '=', False)]}" groups="base.group_no_one"/>
+                            <label for="liquidacionCompra_sequence_number_next" attrs="{'invisible': [('type', 'not in', ['purchase'])]}"/>
+                            <div attrs="{'invisible': ['|',('type', 'not in', ['purchase'])]}">
+                                <field name="liquidacionCompra_sequence_number_next" style="padding-right: 1.0em"/>
+                                <field name="liquidacionCompra_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                            </div>
+                            <!-- COMPROBANTE DE RETENCION -->
+                            <field name="retencion_electronica" attrs="{'invisible': ['|',('type', 'not in', ['purchase']), ('retencion_sequence_id', '=', False)]}" groups="base.group_no_one"/>
+                            <label for="retencion_sequence_number_next" attrs="{'invisible': [('type', 'not in', ['purchase'])]}"/>
+                            <div attrs="{'invisible': ['|',('type', 'not in', ['purchase'])]}">
+                                <field name="retencion_sequence_number_next" style="padding-right: 1.0em"/>
+                                <field name="retencion_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                            </div>
+                            <!-- FACTURA DE VENTA -->
+                            <field name="factura_electronica" attrs="{'invisible': ['|',('type', 'not in', ['sale']), ('factura_sequence_id', '=', False)]}" groups="base.group_no_one"/>
+                            <label for="factura_sequence_number_next" attrs="{'invisible': [('type', 'not in', ['sale'])]}"/>
+                            <div attrs="{'invisible': ['|',('type', 'not in', ['sale'])]}">
+                                <field name="factura_sequence_number_next" style="padding-right: 1.0em"/>
+                                <field name="factura_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                            </div>
+                            <!-- NOTA DE CREDITO DE VENTA -->
+                            <field name="notaCredito_electronica" attrs="{'invisible': ['|',('type', 'not in', ['sale']), ('notaCredito_sequence_id', '=', False)]}" groups="base.group_no_one"/>
+                            <label for="notaCredito_sequence_number_next" attrs="{'invisible': [('type', 'not in', ['sale'])]}"/>
+                            <div attrs="{'invisible': ['|',('type', 'not in', ['sale'])]}">
+                                <field name="notaCredito_sequence_number_next" style="padding-right: 1.0em"/>
+                                <field name="notaCredito_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                            </div>
+                            <!-- GUIA DE REMISION -->
+                            <field name="guia_electronica" attrs="{'invisible': ['|',('type', 'not in', ['sale']), ('guia_sequence_id', '=', False)]}" groups="base.group_no_one"/>
+                            <label for="guia_sequence_number_next" attrs="{'invisible': [('type', 'not in', ['sale'])]}"/>
+                            <div attrs="{'invisible': ['|',('type', 'not in', ['sale'])]}">
+                                <field name="guia_sequence_number_next" style="padding-right: 1.0em"/>
+                                <field name="guia_sequence_id" required="0" attrs="{'readonly': 1}" groups="base.group_no_one"/>
+                            </div>
+                        </group>
+                        <!-- FACTURACION ELECTRONICA -->
+                        <group name="group_documentosSri_right" string="Facturación Electrónica">
+                            <field name="company_facturacion_electronica" readonly="1" groups="base.group_no_one"/>
+                            <field name="company_ruta_documentos" readonly = "1" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}" groups="base.group_no_one"/>
+
+                            <field name="electronic_signature" readonly = "1" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}" groups="base.group_no_one"/>
+                            <field name="expiration_date" readonly = "1" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}" groups="base.group_no_one"/>
+                            <field name="emission_code" readonly = "1" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}" groups="base.group_no_one"/>
+                            <field name="env_service" readonly = "1" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}" groups="base.group_no_one"/>
+                        </group>
+                    </group>
+                </page>
+              </xpath>
+
+        </field>
+    </record>
+
+    <!-- Partner company form view inherte -->
+    <record id="new_view_res_company_form" model="ir.ui.view">
+        <field name="name">account.res.company.form.new</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <!-- FACTURACION ELECTRONICA -->
+            <xpath expr="//group[@name='info_tributaria_group_left']" position="after">
+                <group name="info_archivos_group_right" string="Facturación Electrónica">
+                    <field name="company_facturacion_electronica"/>
+                    <field name="company_ruta_documentos" readonly = "0" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}" style="font-size:90%;"/>
+                    <field name="electronic_signature" required="0" readonly ="0" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}"  style="font-size:90%;"/>
+                    <field name="password_electronic_signature" password="1" required="0" readonly ="0" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}"/>
+                    <field name="expiration_date" readonly ="0" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}"/>
+                    <field name="emission_code" readonly ="0" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}"/>
+                    <field name="env_service" readonly ="0" invisible="0" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}"/>
+                    <field name="type_environment" readonly ="0" invisible="1" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}"/>
+                    <field name="sri_scheme" readonly ="0" invisible="1" attrs="{'invisible': [('company_facturacion_electronica','=','NO')]}"/>
+                </group>
+                <group string="WS Producción" name="ws_produccion" invisible = "1">
+                    <field name="ws_receipt_production" placeholder="URL del WS para Recepción de Documentos"/>
+                    <field name="ws_auth_production" placeholder="URL del WS para Autorización de Documentos"/>
+                </group>
+                <group string="WS Pruebas" name="ws_pruebas" invisible = "1">
+                    <field name="ws_receipt_test" placeholder="URL del WS para Recepción de Documentos"/>
+                    <field name="ws_auth_test" placeholder="URL del WS para Autorización de Documentos"/>
+                </group>
+                <group string="WS Producción (Offline)" name="ws_produccion_offline" invisible = "1">
+                    <field name="ws_receipt_production_offline" placeholder="URL del WS para Recepción de Documentos (Offline)"/>
+                    <field name="ws_auth_production_offline" placeholder="URL del WS para Autorización de Documentos (Offline)"/>
+                </group>
+                <group string="WS Pruebas (Offline)" name="ws_pruebas_offline" invisible = "1">
+                    <field name="ws_receipt_test_offline" placeholder="URL del WS para Recepción de Documentos (Offline)"/>
+                    <field name="ws_auth_test_offline" placeholder="URL del WS para Autorización de Documentos (Offline)"/>
+                </group>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

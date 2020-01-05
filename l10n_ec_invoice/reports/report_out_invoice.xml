@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <template id="report_out_invoice_document">
+            <style>
+                table, th, td {
+                border-collapse: collapse;
+                font-size: 10pt;
+                }
+                table,
+                th {
+                padding: 6px;
+                }
+                td {
+                padding: 6px;
+                }
+            </style>
+            <div class="row">
+                <table class="table table-condensed" style="width:100%; border: 1px solid LightGray;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 50%; border: 1px solid LightGray;">
+                                <div class="col-xs-12">
+                                    <div class="oe_product_image" style="">
+                                        <img
+                                            t-if="o.company_id.logo"
+                                            t-att-src="'data:image/png;base64,'+ to_text(o.company_id.logo)"
+                                            style="display:block; margin-left:auto; margin-right:auto;max-height:150px; max-width:275px"/>
+                                    </div>
+                                </div>
+                                <div class="well_edocs">
+                                    <center>
+                                        <strong style="font-size: 12pt" t-field="o.company_id.name"/>
+                                    </center>
+                                    <p/>
+                                    <center>
+                                        <strong >Dir. Matriz:</strong>
+                                        <span  t-esc="o.company_id.street or ''"/>
+                                        <br/>
+                                        <strong >Dir. Sucursal:</strong>
+                                        <span  t-esc="o.company_id.street or ''"/>
+                                    </center>
+                                    <p/><p/>
+                                    <t t-if="o.doc_electronico_no_autorizacion">
+                                        <center>
+                                            <strong>Clave de Acceso:</strong>
+                                        </center>
+                                        <center>
+                                            <img
+                                                t-att-src="'/report/barcode/?type=%s&amp;value=%s&amp;width=%s&amp;height=%s' % ('Code128', o.doc_electronico_no_autorizacion, 600, 100)"
+                                                alt="Barcode"
+                                                style="width:400px;height:50px;"
+                                            />
+                                            <span t-field="o.doc_electronico_no_autorizacion"/>
+                                        </center>
+                                    </t>
+                                </div>
+                            </td>
+                            <td style="border: 1px solid LightGray; background-color: #eeeeee;">
+                                <div class="well_edocs">
+                                    <strong class="lead">
+                                        RUC:
+                                        <span t-esc="o.company_id.vat"/>
+                                        <p/><p/>
+                                    </strong>
+                                    <strong>
+                                        <span>
+                                            <h4>FACTURA</h4>
+                                        </span>
+                                        <p/>
+                                    </strong>
+                                    <t t-if="o.doc_electronico_no">
+                                        <strong class="lead">
+                                            No:
+                                            <span t-esc="o.doc_electronico_no" style="font-size:20px; color: #a94442;"/>
+                                        </strong>
+                                        <br/><br/>
+                                    </t>
+                                    <t t-if="o.doc_electronico_no_autorizacion">
+                                        <strong>Número de Autorización:</strong>
+                                        <span t-field="o.doc_electronico_no_autorizacion"/>
+                                        <br/><br/>
+                                    </t>
+                                    <t t-if="o.doc_electronico_fecha_autorizacion">
+                                        <strong>Fecha de Autorización:</strong>
+                                        <span t-field="o.doc_electronico_fecha_autorizacion"/>
+                                        <br/><br/>
+                                    </t>
+                                    <t t-if="o.doc_electronico_no_autorizacion">
+                                        <strong>Ambiente:</strong>
+                                        <span t-field="o.company_id.type_environment"/>
+                                        <br/>
+                                    </t>
+                                    <t t-if="o.doc_electronico_no_autorizacion">
+                                        <strong>Emisión:</strong>
+                                        <span t-field="o.company_id.emission_code"/>
+                                        <br/>
+                                    </t>
+                                    <t t-if="o.company_id.company_registry">
+                                        <br/>
+                                        <strong >Contribuyente Especial No:</strong>
+                                        <span  t-esc="o.company_id.company_registry"/>
+                                    </t>
+                                    <br/>
+                                    <strong >Obligado a llevar contabilidad:</strong>
+                                    <t t-if="o.company_id.company_obligado_contabilidad ">
+                                        <span  t-field="o.company_id.company_obligado_contabilidad"/>
+                                    </t>
+                                    <t t-if="not o.company_id.company_obligado_contabilidad" >NO</t>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <table class="table table-condensed" style="width:100%; border: 1px solid #cba05e; background-color: #cba05e;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div>
+                                    <b>Razón Social / Nombres y Apellidos:</b>
+                                    <span t-field="o.partner_id.name"/>
+                                    <br/>
+                                    <b >Dirección:</b>
+                                    <span t-field="o.partner_id.street"/>
+                                    <span t-field="o.partner_id.street2"/>
+                                    <span t-field="o.partner_id.city"/>
+                                    <span t-field="o.partner_id.state_id"/>
+                                    <br/>
+                                    <b >Identificación:</b>
+                                    <span t-field="o.partner_id.numero_identidad"/>
+                                    <br/>
+                                    <b >Fecha de Emisión:</b>
+                                    <span t-field="o.doc_electronico_fecha"/>
+                                    <br/>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <table class="table table-condensed" style="width:100%; line-height: 0.6; border: 1px solid LightGray;">
+
+
+                    <tbody>
+                        <tr style="background-color: #eeeeee;">
+                            <th class="text-center">
+                                <b>Código</b>
+                            </th>
+                            <th class="text-left">
+                                <b>Descripción</b>
+                            </th>
+                            <th class="text-right">
+                                <b>Cantidad</b>
+                            </th>
+                            <th class="text-right">
+                                <b>Precio U</b>
+                            </th>
+                            <th class="text-right">
+                                <b>Descuento</b>
+                            </th>
+                            <th class="text-right">
+                                <b>Precio total</b>
+                            </th>
+                        </tr>
+                        <tr t-foreach="o.invoice_line_ids" t-as="l" style="border-bottom: 1px solid LightGray;">
+                            <td t-if="l.price_subtotal != 0" class="text-center">
+                                <span t-field="l.product_id.barcode"/>
+                            </td>
+                            <td t-if="l.price_subtotal != 0" class="text-left">
+                                <span t-field="l.name"/>
+                            </td>
+                            <td t-if="l.price_subtotal != 0" class="text-right">
+                                <span t-field="l.quantity"/>
+                            </td>
+                            <td t-if="l.price_subtotal != 0" class="text-right">
+                                <span t-field="l.price_unit"/>
+                            </td>
+                            <td t-if="l.price_subtotal != 0" class="text-right">
+                                <span t-field="l.discount"/>
+                            </td>
+                            <td t-if="l.price_subtotal != 0" class="text-right">
+                                <span t-field="l.price_subtotal"/>
+                            </td>
+                        </tr>
+                    </tbody>
+
+                </table>
+            </div>
+
+            <div class="row">
+                <table style="width:100%; padding: 5px; border: 1px solid LightGray;">
+                    <tbody>
+                        <tr>
+                            <td style="width: 60%; border: 1px solid LightGray;">
+                                <div class="well_edocs">
+                                    <strong style="font-size: 12pt">Información Factura:</strong>
+                                    <p/>
+                                    <t t-if="o.valor_total_letras">
+                                        <strong >Son:</strong>
+                                        <span  t-esc="o.valor_total_letras"/><br/>
+                                    </t>
+                                    <p/>
+                                    <t t-if="o.metodo_pago">
+                                        <strong >Forma de pago:</strong>
+                                        <span  t-esc="o.metodo_pago_descripcion"/><br/>
+                                    </t>
+                                    <t t-if="o.partner_id.email">
+                                        <strong >Términos de pago:</strong>
+                                        <span  t-esc="o.payment_term_id.name.upper()"/><br/>
+                                    </t>
+
+
+                                </div>
+                            </td>
+
+                            <td style="border: 1px solid LightGray; background-color: #eeeeee;">
+                                <div class="well_edocs">
+                                    <table style="width:100%; line-height: 0.7;">
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <t>SUBTOTAL 12%: </t>
+                                            </td>
+                                            <td colspan="6" class="text-right">
+                                                <t colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.subtotal_12))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <t>SUBTOTAL 0%: </t>
+                                            </td>
+                                            <td colspan="6" class="text-right">
+                                                <t colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.subtotal_0))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <t>SUBTOTAL NO SUJETO DE IVA: </t>
+                                            </td>
+                                            <td colspan="6" class="text-right">
+                                                <t colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.subtotal_no_sujeto_iva))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <b>SUBTOTAL SIN IMPUESTOS: </b>
+                                            </td>
+                                            <td colspan="6" class="text-right" style="border-top: 1px solid gray;">
+                                                <b colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.amount_untaxed))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <t>DESCUENTO: </t>
+                                            </td>
+                                            <td colspan="6" class="text-right">
+                                                <t colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.descuento))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <t>ICE: </t>
+                                            </td>
+                                            <td colspan="6" class="text-right">
+                                                <t colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.ice))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <t>IVA 12%: </t>
+                                            </td>
+                                            <td colspan="6" class="text-right">
+                                                <t colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.iva_12))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <t>PROPINA: </t>
+                                            </td>
+                                            <td colspan="6" class="text-right">
+                                                <t colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.propina))"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="5" class="text-right">
+                                                <b>VALOR TOTAL: </b>
+                                            </td>
+                                            <td colspan="6" class="text-right" style="border-top: 1px solid gray;">
+                                                <b colspan="3" t-esc="'$ {:0,.2f}'.format(abs(o.valor_total))"/>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </td>
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+            <p/>
+
+            <div class="row">
+                <table class="table table-condensed" style="border: 1px solid LightGray;">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="well_edocs">
+                                    <strong style="font-size: 12pt">Información Adicional</strong><br/>
+                                    <t t-if="o.partner_id.email">
+                                        <strong style="font-size: 10pt">Email:</strong>
+                                        <span style="font-size: 10pt" t-esc="o.partner_id.email"/><br/>
+                                    </t>
+                                </div>
+                            </td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </template>
+
+        <template id="report_out_invoice">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="10"/>
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <t t-call="l10n_ec_invoice.report_out_invoice_document"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>
