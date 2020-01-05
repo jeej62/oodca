@@ -1,0 +1,850 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!--# *************************************************************************
+	    # Ecuador contabilidad para Sociedades y Personas Naturales Obligadas
+	    # Localización para Odoo V12
+	    # Por: Jeej © <2019> <José Enríquez>
+	    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+	    # Part of Odoo. See LICENSE file for full copyright and licensing details.
+	    # ************************************************************************* -->
+
+    	<!-- ************************************************************** -->
+        <!-- Account Tax Tags                                              	-->
+        <!-- Ecuador Base contable                                          -->
+        <!-- ************************************************************** -->
+		<record id="tax_tag_formulario_ir_anual" model="account.account.tag">
+			<field name="name">Formulario IR anual</field>
+			<field name="applicability">taxes</field>
+		</record>
+		<record id="tax_tag_formulario_ir_mensual" model="account.account.tag">
+			<field name="name">Formulario IR mensual</field>
+			<field name="applicability">taxes</field>
+		</record>
+		<record id="tax_tag_formulario_iva_mensual" model="account.account.tag">
+			<field name="name">Formulario IVA mensual</field>
+			<field name="applicability">taxes</field>
+		</record>
+		<record id="tax_tag_formulario_ice_mensual" model="account.account.tag">
+			<field name="name">Formulario ICE mensual</field>
+			<field name="applicability">taxes</field>
+		</record>
+		<record id="tax_tag_formulario_irbpnr_mensual" model="account.account.tag">
+			<field name="name">Formulario IRBPNR mensual</field>
+			<field name="applicability">taxes</field>
+		</record>
+		<record id="tax_tag_formulario_irex_mensual" model="account.account.tag">
+			<field name="name">Formulario IREX mensual</field>
+			<field name="applicability">taxes</field>
+		</record>
+		<record id="tax_tag_formulario_isd_mensual" model="account.account.tag">
+			<field name="name">Formulario ISD mensual</field>
+			<field name="applicability">taxes</field>
+		</record>
+
+    	<!-- ************************************************************** -->
+        <!-- Account Tax                                               		-->
+        <!-- Ecuador Base contable                                          -->
+        <!-- ************************************************************** -->
+      <record id="tax_IVA-12-bsVenLocalC-411" model="account.tax.template"> 
+        <field name="description">Ventas locales (excluye activos fijos) gravadas tarifa diferente de cero</field>  
+        <field name="name">IVA 12 bsVenLocalC 411</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-afVenLocalC-412" model="account.tax.template"> 
+        <field name="description">Ventas de activos fijos gravadas tarifa diferente de cero</field> 
+        <field name="name">IVA 12 afVenLocalC 412</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsVenLocalS-413" model="account.tax.template"> 
+        <field name="description">Ventas locales (excluye activos fijos) gravadas tarifa 0% que no dan derecho a crédito tributario</field> 
+        <field name="name">IVA 00 bsVenLocalS 413</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-afVenLocalS-414" model="account.tax.template"> 
+        <field name="description">Ventas de activos fijos gravadas tarifa 0% que no dan derecho a crédito tributario</field>  
+        <field name="name">IVA 00 afVenLocalS 414</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsVenLocalC-415" model="account.tax.template"> 
+        <field name="description">Ventas locales (excluye activos fijos) gravadas tarifa 0% que dan derecho a crédito tributario</field>  
+        <field name="name">IVA 00 bsVenLocalC 415</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-afVenLocalC-416" model="account.tax.template"> 
+        <field name="description">Ventas de activos fijos gravadas tarifa 0% que dan derecho a crédito tributario</field> 
+        <field name="name">IVA 00 afVenLocalC 416</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bbVenExporC-417" model="account.tax.template"> 
+        <field name="description">Exportaciones de bienes</field> 
+        <field name="name">IVA 00 bbVenExporC 417</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-ssVenExporC-418" model="account.tax.template"> 
+        <field name="description">Exportaciones de servicios y/o derechos</field> 
+        <field name="name">IVA 00 ssVenExporC 418</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsVenNoObjC-441" model="account.tax.template"> 
+        <field name="description">Transferencias no objeto de IVA</field> 
+        <field name="name">IVA 00 bsVenNoObjC 441</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_no_objeto"/> 
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsVenExentC-441" model="account.tax.template"> 
+        <field name="description">Transferencias exentas de IVA</field> 
+        <field name="name">IVA 00 bsVenExentC 441</field> 
+        <field name="account_id" ref="ac_201070101"/> 
+        <field name="refund_account_id" ref="ac_201070101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_exento"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-bsComLocalC-510" model="account.tax.template"> 
+        <field name="description">Adquisiciones y pagos (excluye activos fijos) gravados tarifa diferente de cero (con derecho a crédito tributario)</field>  
+        <field name="name">IVA 12 bsComLocalC 510</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-afComLocalC-511" model="account.tax.template"> 
+        <field name="description">Adquisiciones locales de activos fijos gravados tarifa diferente de cero (con derecho a crédito tributario) </field>  
+        <field name="name">IVA 12 afComLocalC 511</field> 
+        <field name="account_id" ref="ac_1020110"/> 
+        <field name="refund_account_id" ref="ac_1020110"/>  
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-bsComLocalS-512" model="account.tax.template"> 
+        <field name="description">Otras adquisiciones y pagos gravados tarifa diferente de cero (sin derecho a crédito tributario)</field>  
+        <field name="name">IVA 12 bsComLocalS 512</field> 
+        <field name="account_id" ref="ac_52022002"/>  
+        <field name="refund_account_id" ref="ac_52022002"/> 
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-bsComLocalN-512" model="account.tax.template"> 
+        <field name="description">Otras adquisiciones y pagos gravados tarifa diferente de cero (No Deducibles en la declaración)</field> 
+        <field name="name">IVA 12 bsComLocalN 512</field> 
+        <field name="account_id" ref="ac_52040202"/>  
+        <field name="refund_account_id" ref="ac_52040202"/> 
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-ssComImporC-513" model="account.tax.template"> 
+        <field name="description">Importaciones de servicios y/o derechos gravados tarifa diferente de cero</field> 
+        <field name="name">IVA 12 ssComImporC 513</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-bbComImporC-514" model="account.tax.template"> 
+        <field name="description">Importaciones de bienes (excluye activos fijos) gravados tarifa diferente de cero</field> 
+        <field name="name">IVA 12 bbComImporC 514</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-12-afComImporC-515" model="account.tax.template"> 
+        <field name="description">Importaciones de activos fijos gravados tarifa diferente de cero</field>  
+        <field name="name">IVA 12 afComImporC 515</field> 
+        <field name="account_id" ref="ac_1020110"/> 
+        <field name="refund_account_id" ref="ac_1020110"/>  
+        <field name="amount">12</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_12"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-baComImporC-516" model="account.tax.template"> 
+        <field name="description">Importaciones de bienes (incluye activos fijos) gravados tarifa 0%</field>  
+        <field name="name">IVA 00 baComImporC 516</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsComLocalC-517" model="account.tax.template"> 
+        <field name="description">Adquisiciones y pagos (incluye activos fijos) gravados tarifa 0%</field>  
+        <field name="name">IVA 00 bsComLocalC 517</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsCompRiseC-518" model="account.tax.template"> 
+        <field name="description">Adquisiciones realizadas a contribuyentes RISE </field> 
+        <field name="name">IVA 00 bsCompRiseC 518</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_00"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsComNoObjC-541" model="account.tax.template"> 
+        <field name="description">Adquisiciones no objeto de IVA</field>  
+        <field name="name">IVA 00 bsComNoObjC 541</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_no_objeto"/> 
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IVA-00-bsComExentC-542" model="account.tax.template"> 
+        <field name="description">Adquisiciones exentas del pago de IVA</field> 
+        <field name="name">IVA 00 bsComExentC 542</field> 
+        <field name="account_id" ref="ac_101050101"/> 
+        <field name="refund_account_id" ref="ac_101050101"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_iva_exento"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_RIR-10-ssHonorProC-303" model="account.tax.template"> 
+        <field name="description">Honorarios profesionales y demás pagos por servicios relacionados con el título profesional</field> 
+        <field name="name">RIR 10 ssHonorProC 303</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-10</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssHonorIntC-304" model="account.tax.template"> 
+        <field name="description">Servicios predomina el intelecto no relacionados con el título profesional</field>  
+        <field name="name">RIR 08 ssHonorIntC 304</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssComisIntC-304A" model="account.tax.template">  
+        <field name="description">Comisiones y demás pagos por servicios predomina intelecto no relacionados con el título profesional</field>  
+        <field name="name">RIR 08 ssComisIntC 304A</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssNotarRegC-304B" model="account.tax.template">  
+        <field name="description">Pagos a notarios y registradores de la propiedad y mercantil por sus actividades ejercidas como tales</field> 
+        <field name="name">RIR 08 ssNotarRegC 304B</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssDeportisC-304C" model="account.tax.template">  
+        <field name="description">Pagos a deportistas, entrenadores, árbitros, miembros del cuerpo técnico por sus actividades ejercidas como tales</field> 
+        <field name="name">RIR 08 ssDeportisC 304C</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssArtistasC-304D" model="account.tax.template">  
+        <field name="description">Pagos a artistas por sus actividades ejercidas como tales</field> 
+        <field name="name">RIR 08 ssArtistasC 304D</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssDocentesC-304E" model="account.tax.template">  
+        <field name="description">Honorarios y demás pagos por servicios de docencia</field>  
+        <field name="name">RIR 08 ssDocentesC 304E</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-02-ssManoObraC-307" model="account.tax.template"> 
+        <field name="description">Servicios predomina la mano de obra</field> 
+        <field name="name">RIR 02 ssManoObraC 307</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-2</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-10-ssRenombreC-308" model="account.tax.template"> 
+        <field name="description">Utilización o aprovechamiento de la imagen o renombre</field> 
+        <field name="name">RIR 10 ssRenombreC 308</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-10</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-ssPublicidC-309" model="account.tax.template"> 
+        <field name="description">Servicios prestados por medios de comunicación y agencias de publicidad</field> 
+        <field name="name">RIR 01 ssPublicidC 309</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-ssTransPriC-310" model="account.tax.template"> 
+        <field name="description">Servicio de transporte privado de pasajeros o transporte público o privado de carga</field> 
+        <field name="name">RIR 01 ssTransPriC 310</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-02-bsLqCompraC-311" model="account.tax.template"> 
+        <field name="description">Pagos a través de liquidación de compra (nivel cultural o rusticidad)</field> 
+        <field name="name">RIR 02 bsLqCompraC 311</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-2</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-bbBienMuebC-312" model="account.tax.template"> 
+        <field name="description">Transferencia de bienes muebles de naturaleza corporal</field>  
+        <field name="name">RIR 01 bbBienMuebC 312</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-bbOrigAgroC-312A" model="account.tax.template">  
+        <field name="description">Compra de bienes de origen agrícola, avícola, pecuario, apícola, cunícula, bioacuático, y forestal</field>  
+        <field name="name">RIR 01 bbOrigAgroC 312A</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-bbPalmaAceC-312B" model="account.tax.template">  
+        <field name="description">Impuesto a la Renta único para la actividad de producción y cultivo de palma aceitera</field> 
+        <field name="name">RIR 01 bbPalmaAceC 312B</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssRegaliPnC-314A" model="account.tax.template">  
+        <field name="description">Regalías por concepto de franquicias de acuerdo a Ley de Propiedad Intelectual - pago a personas naturales</field>  
+        <field name="name">RIR 08 ssRegaliPnC 314A</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssPatentPnC-314B" model="account.tax.template">  
+        <field name="description">Cánones, derechos de autor,  marcas, patentes y similares de acuerdo a Ley de Propiedad Intelectual – pago a personas naturales</field> 
+        <field name="name">RIR 08 ssPatentPnC 314B</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssRegaliSoC-314C" model="account.tax.template">  
+        <field name="description">Regalías por concepto de franquicias de acuerdo a Ley de Propiedad Intelectual  - pago a sociedades</field> 
+        <field name="name">RIR 08 ssRegaliSoC 314C</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssPatentSoC-314D" model="account.tax.template">  
+        <field name="description">Cánones, derechos de autor,  marcas, patentes y similares de acuerdo a Ley de Propiedad Intelectual – pago a sociedades</field> 
+        <field name="name">RIR 08 ssPatentSoC 314D</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-ssArrenMerC-319" model="account.tax.template"> 
+        <field name="description">Cuotas de arrendamiento mercantil (prestado por sociedades), inclusive la de opción de compra</field> 
+        <field name="name">RIR 01 ssArrenMerC 319</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssArrenInmC-320" model="account.tax.template"> 
+        <field name="description">Arrendamiento bienes inmuebles</field>  
+        <field name="name">RIR 08 ssArrenInmC 320</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-ssSeguroReC-322" model="account.tax.template"> 
+        <field name="description">Seguros y reaseguros (primas y cesiones)</field>  
+        <field name="name">RIR 01 ssSeguroReC 322</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-02-ssRenFiNoFC-323" model="account.tax.template"> 
+        <field name="description">Rendimientos financieros pagados a naturales y sociedades  (No a IFIs)</field>  
+        <field name="name">RIR 02 ssRenFiNoFC 323</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-2</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-bsNoSujRetC-332" model="account.tax.template"> 
+        <field name="description">Otras compras de bienes y servicios no sujetas a retención</field>  
+        <field name="name">RIR 00 bsNoSujRetC 332</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-bbBienInmuC-332B" model="account.tax.template">  
+        <field name="description">Compra de bienes inmuebles</field>  
+        <field name="name">RIR 00 bbBienInmuC 332B</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-ssTransPubC-332C" model="account.tax.template">  
+        <field name="description">Transporte público de pasajeros</field> 
+        <field name="name">RIR 00 ssTransPubC 332C</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-ssTransIntC-332D" model="account.tax.template">  
+        <field name="description">Pagos en el país por transporte de pasajeros o transporte internacional de carga, a compañías nacionales o extranjeras de aviación o marítimas</field>  
+        <field name="name">RIR 00 ssTransIntC 332D</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-ssCoopeTraC-332E" model="account.tax.template">  
+        <field name="description">Valores entregados por las cooperativas de transporte a sus socios</field>  
+        <field name="name">RIR 00 ssCoopeTraC 332E</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-ssComprDivC-332F" model="account.tax.template">  
+        <field name="description">Compraventa de divisas distintas al dólar de los Estados Unidos de América</field>  
+        <field name="name">RIR 00 ssComprDivC 332F</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-bsPagosTCTD-332G" model="account.tax.template">  
+        <field name="description">Pagos con tarjeta de crédito </field> 
+        <field name="name">RIR 00 bsPagosTCTD 332G</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-00-bsConveDebC-332I" model="account.tax.template">  
+        <field name="description">Pago a través de convenio de debito (Clientes IFI`s)</field>  
+        <field name="name">RIR 00 bsConveDebC 332I</field>  
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-01-bbOtrasRetC-343" model="account.tax.template"> 
+        <field name="description">Otras retenciones aplicables el 1%</field>  
+        <field name="name">RIR 01 bbOtrasRetC 343</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-1</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-02-ssOtrasRetC-344" model="account.tax.template"> 
+        <field name="description">Otras retenciones aplicables el 2%</field>  
+        <field name="name">RIR 02 ssOtrasRetC 344</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-2</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-08-ssOtrasRetC-345" model="account.tax.template"> 
+        <field name="description">Otras retenciones aplicables el 8%</field>  
+        <field name="name">RIR 08 ssOtrasRetC 345</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-8</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIR-25-ssEmpreExtC-501" model="account.tax.template"> 
+        <field name="description">Pago a no residentes - Beneficios/Servicios  Empresariales</field>  
+        <field name="name">RIR 25 ssEmpreExtC 501</field> 
+        <field name="account_id" ref="ac_201070103"/> 
+        <field name="refund_account_id" ref="ac_201070103"/>  
+        <field name="amount">-25</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ir_mensual')])]"/> 
+      </record>
+      <record id="tax_RIV-10-bsComIVA12C-721" model="account.tax.template"> 
+        <field name="description">Retenciones en la fuente del IVA 12% que ha efectuado en este período por 10%</field> 
+        <field name="name">RIV 10 bsComIVA12C 721</field> 
+        <field name="account_id" ref="ac_201070102"/> 
+        <field name="refund_account_id" ref="ac_201070102"/>  
+        <field name="amount">-1.2</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_RIV-20-bsComIVA12C-723" model="account.tax.template"> 
+        <field name="description">Retenciones en la fuente del IVA 12% que ha efectuado en este período por 20%</field> 
+        <field name="name">RIV 20 bsComIVA12C 723</field> 
+        <field name="account_id" ref="ac_201070102"/> 
+        <field name="refund_account_id" ref="ac_201070102"/>  
+        <field name="amount">-2.4</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_RIV-30-bbComIVA12C-725" model="account.tax.template"> 
+        <field name="description">Retenciones en la fuente del IVA 12% que ha efectuado en este período por 30%</field> 
+        <field name="name">RIV 30 bbComIVA12C 725</field> 
+        <field name="account_id" ref="ac_201070102"/> 
+        <field name="refund_account_id" ref="ac_201070102"/>  
+        <field name="amount">-3.6</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_RIV-70-ssComIVA12C-729" model="account.tax.template"> 
+        <field name="description">Retenciones en la fuente del IVA 12% que ha efectuado en este período por 70%</field> 
+        <field name="name">RIV 70 ssComIVA12C 729</field> 
+        <field name="account_id" ref="ac_201070102"/> 
+        <field name="refund_account_id" ref="ac_201070102"/>  
+        <field name="amount">-8.4</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_RIV100-bsComIVA12C-731" model="account.tax.template"> 
+        <field name="description">Retenciones en la fuente del IVA 12% que ha efectuado en este período por 100%</field>  
+        <field name="name">RIV100 bsComIVA12C 731</field> 
+        <field name="account_id" ref="ac_201070102"/> 
+        <field name="refund_account_id" ref="ac_201070102"/>  
+        <field name="amount">-12</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_RIV-00-bsComIVA00C-002" model="account.tax.template"> 
+        <field name="description">Retención de IVA en cero</field>  
+        <field name="name">RIV 00 bsComIVA00C 002</field> 
+        <field name="account_id" ref="ac_201070102"/> 
+        <field name="refund_account_id" ref="ac_201070102"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_RIV-00-bsComNoSujC-002" model="account.tax.template"> 
+        <field name="description">No Procede Retención del IVA</field>  
+        <field name="name">RIV 00 bsComNoSujC 002</field> 
+        <field name="account_id" ref="ac_201070102"/> 
+        <field name="refund_account_id" ref="ac_201070102"/>  
+        <field name="amount">0</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/>     
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_iva_mensual')])]"/>  
+      </record>
+      <record id="tax_IRX-25-bsComExtraC-002" model="account.tax.template"> 
+        <field name="description">Impuesto a la Renta IR generado en las compras de bienes y servicios en el extranjero por medios virtuales</field>  
+        <field name="name">IRX 25 bsComExtraC 002</field> 
+        <field name="account_id" ref="ac_52022007"/>  
+        <field name="refund_account_id" ref="ac_52022007"/> 
+        <field name="amount">-25</field>  
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_ir_extranjero"/> 
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_irex_mensual')])]"/> 
+      </record>
+      <record id="tax_ISD-05-bsComExtraC-002" model="account.tax.template"> 
+        <field name="description">Impuesto a la Salida de Capitales ISD generado en los pagos o transferencias de dinero al extranjero</field>  
+        <field name="name">ISD 05 bsComExtraC 002</field> 
+        <field name="account_id" ref="ac_52030501"/>  
+        <field name="refund_account_id" ref="ac_52030501"/> 
+        <field name="amount">-5</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_isd"/> 
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_isd_mensual')])]"/>  
+      </record>
+      <record id="tax_ICE-15-bsVenIVA12S-001" model="account.tax.template"> 
+        <field name="description">Impuesto a los consumos especiales 5%</field> 
+        <field name="name">ICE 15 bsVenIVA12S 001</field> 
+        <field name="account_id" ref="ac_201070104"/> 
+        <field name="refund_account_id" ref="ac_201070104"/>  
+        <field name="amount">15</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_ice_15"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ice_mensual')])]"/>  
+      </record>
+      <record id="tax_ICE-15-bsComIVA12S-002" model="account.tax.template"> 
+        <field name="description">Impuesto a los consumos especiales 5%</field> 
+        <field name="name">ICE 15 bsComIVA12S 002</field> 
+        <field name="account_id" ref="ac_52022004"/>  
+        <field name="refund_account_id" ref="ac_52022004"/> 
+        <field name="amount">15</field> 
+        <field name="amount_type">percent</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_ice_15"/>  
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_ice_mensual')])]"/>  
+      </record>
+      <record id="tax_IRB-02-bsVenIrbpnS-001" model="account.tax.template"> 
+        <field name="description">Impuesto redimible a las botellas plásticas no retornables $0.02/botella</field>  
+        <field name="name">IRB 02 bsVenIrbpnS 001</field> 
+        <field name="account_id" ref="ac_2011301"/> 
+        <field name="refund_account_id" ref="ac_2011301"/>  
+        <field name="amount">0.02</field> 
+        <field name="amount_type">fixed</field> 
+        <field name="type_tax_use">sale</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_irbpnr_02"/> 
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_irbpnr_mensual')])]"/> 
+      </record>
+      <record id="tax_IRB-02-bsComIrbpnS-002" model="account.tax.template"> 
+        <field name="description">Impuesto redimible a las botellas plásticas no retornables $0.02/botella</field>  
+        <field name="name">IRB 02 bsComIrbpnS 002</field> 
+        <field name="account_id" ref="ac_52022003"/>  
+        <field name="refund_account_id" ref="ac_52022003"/> 
+        <field name="amount">0.02</field> 
+        <field name="amount_type">fixed</field> 
+        <field name="type_tax_use">purchase</field> 
+        <field name="chart_template_id" ref="account_ec_chart_template"/> 
+        <field name="tax_group_id" ref="tax_group_subtotal_irbpnr_02"/> 
+        <field name="tag_ids" eval="[(6,0,[ref('tax_tag_formulario_irbpnr_mensual')])]"/> 
+      </record>
+
+    </data>
+</odoo>

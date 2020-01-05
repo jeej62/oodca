@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!--# *************************************************************************
+	    # Ecuador contabilidad para Sociedades y Personas Naturales Obligadas
+	    # Localización para Odoo V12
+	    # Por: Jeej © <2019> <José Enríquez>
+	    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+	    # Part of Odoo. See LICENSE file for full copyright and licensing details.
+	    # ************************************************************************* -->
+
+        <!-- ************************************************************** -->
+        <!-- Account Groups                                                 -->
+        <!-- Presentación de Estados Financieros bajo NIIF - Ecuador        -->
+        <!-- ************************************************************** -->
+		<record id="group_1" model="account.group">	
+			<field name="code_prefix">1</field>	
+			<field name="name">ACTIVO</field>			
+		</record>
+		<record id="group_101" model="account.group">	
+			<field name="code_prefix">1.01</field>	
+			<field name="name">ACTIVO CORRIENTE</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_1"/>	
+		</record>
+		<record id="group_10101" model="account.group">	
+			<field name="code_prefix">1.01.01</field>	
+			<field name="name">EFECTIVO Y EQUIVALENTES AL EFECTIVO</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_101"/>	
+		</record>
+		<record id="group_10102" model="account.group">	
+			<field name="code_prefix">1.01.02</field>	
+			<field name="name">ACTIVOS FINANCIEROS CORRIENTES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_101"/>	
+		</record>
+		<record id="group_1010205" model="account.group">	
+			<field name="code_prefix">1.01.02.05</field>	
+			<field name="name">DOCUMENTOS Y CUENTAS POR COBRAR CLIENTES NO RELACIONADOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_10102"/>	
+		</record>
+		<record id="group_1010208" model="account.group">	
+			<field name="code_prefix">1.01.02.08</field>	
+			<field name="name">OTRAS CUENTAS POR COBRAR</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_10102"/>	
+		</record>
+		<record id="group_10103" model="account.group">	
+			<field name="code_prefix">1.01.03</field>	
+			<field name="name">INVENTARIOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_101"/>	
+		</record>
+		<record id="group_10104" model="account.group">	
+			<field name="code_prefix">1.01.04</field>	
+			<field name="name">SERVICIOS Y OTROS PAGOS ANTICIPADOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_101"/>	
+		</record>
+		<record id="group_1010404" model="account.group">	
+			<field name="code_prefix">1.01.04.04</field>	
+			<field name="name">OTROS ANTICIPOS ENTREGADOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_10104"/>	
+		</record>
+		<record id="group_10105" model="account.group">	
+			<field name="code_prefix">1.01.05</field>	
+			<field name="name">ACTIVOS POR IMPUESTOS CORRIENTES </field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_101"/>	
+		</record>
+		<record id="group_1010501" model="account.group">	
+			<field name="code_prefix">1.01.05.01</field>	
+			<field name="name">CRÉDITO TRIBUTARIO A FAVOR DE LA EMPRESA (IVA)</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_10105"/>	
+		</record>
+		<record id="group_102" model="account.group">	
+			<field name="code_prefix">1.02</field>	
+			<field name="name">ACTIVO NO CORRIENTE</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_1"/>	
+		</record>
+		<record id="group_10201" model="account.group">	
+			<field name="code_prefix">1.02.01</field>	
+			<field name="name">PROPIEDADES, PLANTA Y EQUIPO</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_102"/>	
+		</record>
+		<record id="group_1020114" model="account.group">	
+			<field name="code_prefix">1.02.01.14</field>	
+			<field name="name">ACTIVOS DE EXPLORACIÓN Y EXPLOTACIÓN </field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_10201"/>	
+		</record>
+		<record id="group_10202" model="account.group">	
+			<field name="code_prefix">1.02.02</field>	
+			<field name="name">PROPIEDADES DE INVERSIÓN</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_102"/>	
+		</record>
+		<record id="group_10203" model="account.group">	
+			<field name="code_prefix">1.02.03</field>	
+			<field name="name">ACTIVOS BIOLÓGICOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_102"/>	
+		</record>
+		<record id="group_10204" model="account.group">	
+			<field name="code_prefix">1.02.04</field>	
+			<field name="name">ACTIVO INTANGIBLE</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_102"/>	
+		</record>
+		<record id="group_10206" model="account.group">	
+			<field name="code_prefix">1.02.06</field>	
+			<field name="name">ACTIVOS FINANCIEROS NO CORRIENTES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_102"/>	
+		</record>
+		<record id="group_10207" model="account.group">	
+			<field name="code_prefix">1.02.07</field>	
+			<field name="name">OTROS ACTIVOS NO CORRIENTES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_102"/>	
+		</record>
+		<record id="group_2" model="account.group">	
+			<field name="code_prefix">2</field>	
+			<field name="name">PASIVO</field>			
+		</record>
+		<record id="group_201" model="account.group">	
+			<field name="code_prefix">2.01</field>	
+			<field name="name">PASIVO CORRIENTE</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_2"/>	
+		</record>
+		<record id="group_20103" model="account.group">	
+			<field name="code_prefix">2.01.03</field>	
+			<field name="name">CUENTAS Y DOCUMENTOS POR PAGAR CORRIENTES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_201"/>	
+		</record>
+		<record id="group_20104" model="account.group">	
+			<field name="code_prefix">2.01.04</field>	
+			<field name="name">OBLIGACIONES CORRIENTES CON INSTITUCIONES FINANCIERAS </field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_201"/>	
+		</record>
+		<record id="group_2010401" model="account.group">	
+			<field name="code_prefix">2.01.04.01</field>	
+			<field name="name">OBLIGACIONES CORRIENTES CON INSTITUCIONES FINANCIERAS LOCALES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_20104"/>	
+		</record>
+		<record id="group_20105" model="account.group">	
+			<field name="code_prefix">2.01.05</field>	
+			<field name="name">PROVISIONES CORRIENTES </field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_201"/>	
+		</record>
+		<record id="group_20107" model="account.group">	
+			<field name="code_prefix">2.01.07</field>	
+			<field name="name">OTRAS OBLIGACIONES CORRIENTES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_201"/>	
+		</record>
+		<record id="group_2010701" model="account.group">	
+			<field name="code_prefix">2.01.07.01</field>	
+			<field name="name">OBLIGACIONES - CON LA ADMINISTRACIÓN TRIBUTARIA</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_20107"/>	
+		</record>
+		<record id="group_20112" model="account.group">	
+			<field name="code_prefix">2.01.12</field>	
+			<field name="name">PORCIÓN CORRIENTE DE PROVISIONES POR BENEFICIOS A EMPLEADOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_201"/>	
+		</record>
+		<record id="group_20113" model="account.group">	
+			<field name="code_prefix">2.01.13</field>	
+			<field name="name">OTROS PASIVOS CORRIENTES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_201"/>	
+		</record>
+		<record id="group_202" model="account.group">	
+			<field name="code_prefix">2.02</field>	
+			<field name="name">PASIVO NO CORRIENTE</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_2"/>	
+		</record>
+		<record id="group_20202" model="account.group">	
+			<field name="code_prefix">2.02.02</field>	
+			<field name="name">CUENTAS Y DOCUMENTOS POR PAGAR NO CORRIENTES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_202"/>	
+		</record>
+		<record id="group_20203" model="account.group">	
+			<field name="code_prefix">2.02.03</field>	
+			<field name="name">OBLIGACIONES NO CORRIENTES CON INSTITUCIONES FINANCIERAS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_202"/>	
+		</record>
+		<record id="group_20204" model="account.group">	
+			<field name="code_prefix">2.02.04</field>	
+			<field name="name">CUENTAS NO CORRIENTES POR PAGAR DIVERSAS - RELACIONADAS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_202"/>	
+		</record>
+		<record id="group_20207" model="account.group">	
+			<field name="code_prefix">2.02.07</field>	
+			<field name="name">PROVISIONES NO CORRIENTES POR BENEFICIOS A EMPLEADOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_202"/>	
+		</record>
+		<record id="group_20209" model="account.group">	
+			<field name="code_prefix">2.02.09</field>	
+			<field name="name">PASIVO DIFERIDO NO CORRIENTE</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_202"/>	
+		</record>
+		<record id="group_3" model="account.group">	
+			<field name="code_prefix">3</field>	
+			<field name="name">PATRIMONIO NETO</field>			
+		</record>
+		<record id="group_30" model="account.group">	
+			<field name="code_prefix">3.0</field>	
+			<field name="name">PATRIMONIO ATRIBUIBLE A LOS PROPIETARIOS DE LA CONTROLADORA</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_3"/>	
+		</record>
+		<record id="group_301" model="account.group">	
+			<field name="code_prefix">3.0.1</field>	
+			<field name="name">CAPITAL</field>			
+		</record>
+		<record id="group_304" model="account.group">	
+			<field name="code_prefix">3.0.4</field>	
+			<field name="name">RESERVAS</field>			
+		</record>
+		<record id="group_305" model="account.group">	
+			<field name="code_prefix">3.0.5</field>	
+			<field name="name">OTROS RESULTADOS INTEGRALES</field>			
+		</record>
+		<record id="group_306" model="account.group">	
+			<field name="code_prefix">3.0.6</field>	
+			<field name="name">RESULTADOS ACUMULADOS</field>			
+		</record>
+		<record id="group_307" model="account.group">	
+			<field name="code_prefix">3.0.7</field>	
+			<field name="name">RESULTADOS DEL EJERCICIO</field>			
+		</record>
+		<record id="group_31" model="account.group">	
+			<field name="code_prefix">3.1</field>	
+			<field name="name">PARTICIPACIÓN NO CONTROLADORAS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_3"/>	
+		</record>
+		<record id="group_311" model="account.group">	
+			<field name="code_prefix">3.1.1</field>	
+			<field name="name">PARTICIPACIÓN NO CONTROLADORAS</field>			
+		</record>
+		<record id="group_4" model="account.group">	
+			<field name="code_prefix">4</field>	
+			<field name="name">INGRESOS</field>			
+		</record>
+		<record id="group_41" model="account.group">	
+			<field name="code_prefix">4.1</field>	
+			<field name="name">INGRESOS DE ACTIVIDADES ORDINARIAS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_4"/>	
+		</record>
+		<record id="group_4102" model="account.group">	
+			<field name="code_prefix">4.1.02</field>	
+			<field name="name">PRESTACIÓN DE SERVICIOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_41"/>	
+		</record>
+		<record id="group_4106" model="account.group">	
+			<field name="code_prefix">4.1.06</field>	
+			<field name="name">INTERESES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_41"/>	
+		</record>
+		<record id="group_42" model="account.group">	
+			<field name="code_prefix">4.2</field>	
+			<field name="name">GANANCIA BRUTA</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_4"/>	
+		</record>
+		<record id="group_43" model="account.group">	
+			<field name="code_prefix">4.3</field>	
+			<field name="name">OTROS INGRESOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_4"/>	
+		</record>
+		<record id="group_5" model="account.group">	
+			<field name="code_prefix">5</field>	
+			<field name="name">COSTOS Y GASTOS</field>			
+		</record>
+		<record id="group_51" model="account.group">	
+			<field name="code_prefix">5.1</field>	
+			<field name="name">COSTO DE VENTAS Y PRODUCCIÓN</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_5"/>	
+		</record>
+		<record id="group_5101" model="account.group">	
+			<field name="code_prefix">5.1.01</field>	
+			<field name="name">MATERIALES UTILIZADOS O PRODUCTOS VENDIDOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_51"/>	
+		</record>
+		<record id="group_5102" model="account.group">	
+			<field name="code_prefix">5.1.02</field>	
+			<field name="name">(+) MANO DE OBRA DIRECTA</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_51"/>	
+		</record>
+		<record id="group_5103" model="account.group">	
+			<field name="code_prefix">5.1.03</field>	
+			<field name="name">(+) MANO DE OBRA INDIRECTA</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_51"/>	
+		</record>
+		<record id="group_5104" model="account.group">	
+			<field name="code_prefix">5.1.04</field>	
+			<field name="name">(+) OTROS COSTOS INDIRECTOS DE FABRICACIÓN</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_51"/>	
+		</record>
+		<record id="group_52" model="account.group">	
+			<field name="code_prefix">5.2</field>	
+			<field name="name">GASTOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_5"/>	
+		</record>
+		<record id="group_5201" model="account.group">	
+			<field name="code_prefix">5.2.01</field>	
+			<field name="name">GASTOS DE VENTA</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_52"/>	
+		</record>
+		<record id="group_520121" model="account.group">	
+			<field name="code_prefix">5.2.01.21</field>	
+			<field name="name">DEPRECIACIONES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_5201"/>	
+		</record>
+		<record id="group_520122" model="account.group">	
+			<field name="code_prefix">5.2.01.22</field>	
+			<field name="name">AMORTIZACIONES</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_5201"/>	
+		</record>
+		<record id="group_520123" model="account.group">	
+			<field name="code_prefix">5.2.01.23</field>	
+			<field name="name">GASTO DETERIORO</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_5201"/>	
+		</record>
+		<record id="group_520124" model="account.group">	
+			<field name="code_prefix">5.2.01.24</field>	
+			<field name="name">GASTOS POR CANTIDADES ANORMALES DE UTILIZACIÓN EN EL PROCESO DE PRODUCCIÓN</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_5201"/>	
+		</record>
+		<record id="group_520128" model="account.group">	
+			<field name="code_prefix">5.2.01.28</field>	
+			<field name="name">OTROS GASTOS DE VENTA</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_5201"/>	
+		</record>
+		<record id="group_5202" model="account.group">	
+			<field name="code_prefix">5.2.02</field>	
+			<field name="name">GASTOS ADMINISTRATIVOS</field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_52"/>	
+		</record>
+		<record id="group_520220" model="account.group">	
+			<field name="code_prefix">5.2.02.20</field>	
+			<field name="name">IMPUESTOS, CONTRIBUCIONES Y OTROS</field>			
+		</record>
+		<record id="group_520221" model="account.group">	
+			<field name="code_prefix">5.2.02.21</field>	
+			<field name="name">DEPRECIACIONES</field>			
+		</record>
+		<record id="group_520222" model="account.group">	
+			<field name="code_prefix">5.2.02.22</field>	
+			<field name="name">AMORTIZACIONES</field>			
+		</record>
+		<record id="group_520223" model="account.group">	
+			<field name="code_prefix">5.2.02.23</field>	
+			<field name="name">GASTO DETERIORO</field>			
+		</record>
+		<record id="group_520224" model="account.group">	
+			<field name="code_prefix">5.2.02.24</field>	
+			<field name="name">GASTOS POR CANTIDADES ANORMALES DE UTILIZACIÓN EN EL PROCESO DE PRODUCCIÓN</field>			
+		</record>
+		<record id="group_520228" model="account.group">	
+			<field name="code_prefix">5.2.02.28</field>	
+			<field name="name">OTROS GASTOS ADMINISTRATIVOS</field>			
+		</record>
+		<record id="group_5203" model="account.group">	
+			<field name="code_prefix">5.2.03</field>	
+			<field name="name">GASTOS FINANCIEROS </field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_52"/>	
+		</record>
+		<record id="group_520305" model="account.group">	
+			<field name="code_prefix">5.2.03.05</field>	
+			<field name="name">OTROS GASTOS FINANCIEROS</field>			
+		</record>
+		<record id="group_5204" model="account.group">	
+			<field name="code_prefix">5.2.04</field>	
+			<field name="name">OTROS GASTOS </field>	
+			<field name="parent_id" ref="l10n_ec_oodca.group_52"/>	
+		</record>
+		<record id="group_520402" model="account.group">	
+			<field name="code_prefix">5.2.04.02</field>	
+			<field name="name">OTROS</field>			
+		</record>
+
+    </data>
+</odoo>

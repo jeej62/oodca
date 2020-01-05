@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!--# *************************************************************************
+        # Ecuador contabilidad para Sociedades y Personas Naturales Obligadas
+        # Localización para Odoo V12
+        # Por: Jeej © <2019> <José Enríquez>
+        # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+        # Part of Odoo. See LICENSE file for full copyright and licensing details.
+        # ************************************************************************* -->
+
+        <!-- ************************************************************** -->
+        <!-- Encabezado de la plantilla de cuentas contables de Odoo        -->
+        <!-- Ecuador Base contable                                                    -->
+        <!-- ************************************************************** -->
+        <record id="account_ec_chart_template" model="account.chart.template">
+            <field name="name">01 Ecuador Base SO y PNO</field>
+            <field name="cash_account_code_prefix">1.01.01.0</field>
+            <field name="bank_account_code_prefix">1.01.01.1</field>
+            <field name="transfer_account_code_prefix">1.01.01.9</field>
+            <field name="currency_id" ref="base.USD"/>
+        </record>
+        
+    </data>
+</odoo>

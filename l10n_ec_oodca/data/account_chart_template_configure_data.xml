@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+
+    <!--# *************************************************************************
+	    # Ecuador contabilidad para Sociedades y Personas Naturales Obligadas
+	    # Localización para Odoo V12
+	    # Por: Jeej © <2019> <José Enríquez>
+	    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+	    # Part of Odoo. See LICENSE file for full copyright and licensing details.
+	    # ************************************************************************* -->
+
+    	<!-- ************************************************************** -->
+        <!-- Building a localization module									-->
+        <!-- Odoo V12                    									-->
+        <!-- ************************************************************** -->
+        <function model="account.chart.template" name="try_loading_for_current_company">
+            <value eval="[ref('l10n_ec_oodca.account_ec_chart_template')]"/>
+        </function>
+    </data>
+</odoo>
