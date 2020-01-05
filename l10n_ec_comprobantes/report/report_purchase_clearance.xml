@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+
+        <template id="report_purchase_clearance">
+            <t t-call="web.html_container">
+                <t t-set="data_report_margin_top" t-value="10"/>
+                <t t-foreach="docs" t-as="o">
+                    <t t-call="web.internal_layout">
+                        <div class="page">
+                            <t t-call="l10n_ec_invoice.report_purchase_clearance_document"/>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+
+    </data>
+</odoo>

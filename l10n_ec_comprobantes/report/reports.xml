@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <report
+            id="account_move_report"
+            string="Asiento Contable"
+            model="account.move"
+            report_type="qweb-pdf"
+            name="l10n_ec_comprobantes.report_move"
+            file="l10n_ec_comprobantes.report_move"
+            menu="True"
+        />
+    </data>
+
+    <data>
+        <report
+            id="account_retention_report"
+            string="Comprobante Retención"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="l10n_ec_comprobantes.report_retention"
+            file="l10n_ec_comprobantes.report_retention"
+            menu="False"
+        />
+
+        <report
+            id="account_purchase_clearance_report"
+            string="Liquidación de Compra"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="l10n_ec_comprobantes.report_purchase_clearance"
+            file="l10n_ec_comprobantes.report_purchase_clearance"
+            menu="False"
+        />
+
+        <report 
+            id="account_out_invoice_report"
+            string="Factura Venta"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="l10n_ec_comprobantes.report_out_invoice"
+            file="l10n_ec_comprobantes.report_out_invoice"
+            menu="False"
+        />
+
+        <report
+            id="account_out_refund_report"
+            string="Nota de Crédito Venta"
+            model="account.invoice"
+            report_type="qweb-pdf"
+            name="l10n_ec_comprobantes.report_out_refund"
+            file="l10n_ec_comprobantes.report_out_refund"
+            menu="False"
+        />
+
+    </data>
+</odoo>
