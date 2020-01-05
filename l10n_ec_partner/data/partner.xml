@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--# *************************************************************************
+    # Ecuador Partner
+    # Localización para Odoo V12
+    # Por: Jeej © <2019> <José Enríquez>
+    # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+    # Part of Odoo. See LICENSE file for full copyright and licensing details.
+    # ************************************************************************* -->
+
+<odoo>
+    <data>
+
+        <record id="partner_consumidor_final" model="res.partner">
+            <field name="numero_identidad">9999999999999</field>
+            <field name="name">CONSUMIDOR FINAL</field>
+            <field name="tipo_identidad">pasaporte</field>
+            <field name="tipo_persona">0</field>
+            <field name="customer">1</field>
+            <field name="country_id">63</field>
+        </record>
+        
+    </data>
+</odoo>

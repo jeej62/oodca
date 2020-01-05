@@ -1,0 +1,156 @@
+<odoo>
+  <data>
+
+    <!--# *************************************************************************
+        # Ecuador Partner
+        # Localización para Odoo V12
+        # Por: Jeej © <2019> <José Enríquez>
+        # License AGPL-3.0 or later (http://www.gnu.org/licenses/agpl).
+        # Part of Odoo. See LICENSE file for full copyright and licensing details.
+        # ************************************************************************* -->
+
+        <!-- PARTNER - Contactos -->
+
+        <!-- Partner search select view inherte -->
+        <record id="new_view_partner_select" model="ir.ui.view">
+            <field name="name">view.partner.select.new</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <field name="name" position="after">
+                    <field name="numero_identidad" string ="Número de Identificación"/>
+                    <field name="nombre_comercial" string ="Nombre Comercial"/>
+                </field>
+            </field>
+        </record>
+
+        <!-- Partner kanban view inherte -->
+            <record id="new_partner_kanban_view" model="ir.ui.view">
+                <field name="name">res.partner.kanban.inherit.new</field>
+                <field name="model">res.partner</field>
+                <field name="inherit_id" ref="base.res_partner_kanban_view"/>
+                <field name="arch" type="xml">
+                    <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/strong[1]/field[@name='display_name']" position="before">
+                        <field name="numero_identidad"/>
+                    </xpath>
+                    <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/ul[1]/li[7]/field[@name='email']" position="after">
+                        <field name="nombre_comercial"/>
+                    </xpath>
+                    <xpath expr="//kanban[1]/templates[1]/t[1]/div[1]/div[1]/ul[1]/li[7]/field[@name='email']" position="attributes">
+                        <attribute name="attrs">{}</attribute>
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                </field>
+            </record>
+
+        <!-- Partner tree view inherte -->
+        <record id="new_view_partner_tree" model="ir.ui.view">
+            <field name="name">view.partner.tree.new</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_tree"/>
+            <field name="arch" type="xml">
+                <xpath expr="/tree/field[@name='display_name']" position="after">
+                    <field name="numero_identidad"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!-- Partner form view inherte -->
+        <record id="_new_view_res_partner_form" model="ir.ui.view">
+            <field name="name">res.partner.form.new</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <!-- FECHA DE ACTUALIZACION DEL CONTACTO -->
+                <xpath expr="//field[@name='category_id']" position="after">
+                    <field name="update_date" readonly ="0" invisible="0"/>
+                </xpath>
+                <xpath expr="//form[1]/sheet[1]/group[1]/group[1]/field[@name='type']" position="before">
+                    <field name="numero_identidad" attrs="{}" required="1" string="No de Identificación" class="oe_inline"  placeholder="1760013210001"/>
+                    <field name="tipo_identidad" attrs="{}" required="1" string="Tipo de Identificación"/>
+                    <field name="nombre_comercial" attrs="{}" string="Nombre comercial"/>
+                    <field name="tipo_persona" attrs="{}" string="Tipo de Persona" class="oe_inline"/>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes">
+                    <attribute name="attrs">{"readonly": [["parent_id","!=",False]]}</attribute>
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='industry_id']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                </xpath>
+                <!-- BOTTON DE ACTUALIZACION -->
+                <xpath expr="//field[@name='name']" position="before">
+                  <button name="actualizar"
+                          type="object"
+                          icon="fa-user"
+                          string=" ACTUALIZAR CONTACTO"
+                          class="oe_highlight oe_edit_only"
+                          groups="base.group_user"
+                  />
+                </xpath>
+                <!-- BOTTON DE ACTUALIZACION DE TODOS LOS CONTACTOS -->
+                <xpath expr="//button[@name='actualizar']" position="after">
+                  <button name="actualizar_todos"
+                          type="object"
+                          icon="fa-meh-o"
+                          string=" ACTUALIZAR TODO"
+                          class="oe_edit_only"
+                          groups="base.group_user"
+                          attrs="{'invisible': [('id','!=',3),]}"
+                  />
+                </xpath>
+                <!-- BOTTON DE PRUEBAS XMLRPC CALLING METHOD -->
+                <!--
+                <xpath expr="//button[@name='actualizar']" position="after">
+                  <button name="calling_method_xmlrpc"
+                          type="object"
+                          icon="fa-meh-o"
+                          string=" XMLRPC CALLING"
+                          class="oe_edit_only"
+                          groups="base.group_user"
+                          attrs="{'invisible': [('id','!=',3),]}"
+                  />
+                </xpath>
+                -->
+            </field>
+        </record>
+
+        <!-- Partner company form view inherte -->
+        <record id="new_view_res_company_form" model="ir.ui.view">
+            <field name="name">account.res.company.form.new</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <!-- ACCESO A LA BASE DE DATOS DEL RUC -->
+                <xpath expr="//field[@name='currency_id']" position="after">
+                    <field name="ip_ruc" readonly ="0" invisible="0"/>
+                </xpath>
+                <!-- INVISIBLE: company_registry ORIGINAL -->
+                <xpath expr="//field[@name='company_registry']" position="attributes">
+                  <attribute name="attrs">{}</attribute>
+                  <attribute name="invisible">1</attribute>
+                </xpath>
+                <!-- INFORMACION TRIBUTARIA Y ARCHIVOS -->
+                <!-- <xpath expr="//form[1]/sheet[1]/group[1]" position="after"> -->
+                <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/group[1]" position="after">
+                    <group name="info_tributaria_archivos_group">
+                        <!-- informacion tributaria -->
+                        <group name="info_tributaria_group_left" string="Información Tributaria">
+                            <field name="company_contribuyente_especial"/>
+                            <field name="company_registry" string="No Contribuyente Esp" invisible="0" attrs="{'invisible': [('company_contribuyente_especial','=','NO')]}"/>
+                            <field name="company_obligado_contabilidad"/>
+                            <field name="company_contador_id"/>
+                            <field name="company_sri_id"/>
+                            <field name="company_representante_legal"/>
+                        </group>
+                    </group>
+                </xpath>
+                <!-- MOVE: VAT DENTRO DE COMPANY -->
+                <xpath expr="//field[@name='company_contribuyente_especial']" position="before">
+                    <xpath expr="//form[1]/sheet[1]/notebook[1]/page[1]/group[1]/group[2]/field[@name='vat']" position="move"/>
+                </xpath>
+            </field>
+        </record>
+
+  </data>
+</odoo>
